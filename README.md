@@ -1,9 +1,9 @@
 # Modern School & Home Company (MSH - Michał, Szymon, Hubert)
 
 ### Zespół: 
-## 1. Michał Nowak
-## 2. Szymon Potępa 
-## 3. Hubert Myszka
+#  Michał Nowak
+#  Szymon Potępa 
+# Hubert Myszka
 
 ## 1. Cel systemu i kontekst biznesowy
 
@@ -2653,10 +2653,10 @@ W systemie zdefiniowano role aplikacyjne oraz nadano im uprawnienia głównie do
 
 ## 11. Uwagi dot. danych testowych (seed)
 
-Skrypt zawiera sekcje INSERT/seed służące do wygenerowania przykładowych danych (produkty, klienci, zamówienia, płatności itp.) zgodnie z wymaganiem posiadania danych historycznych do raportów. fileciteturn1file1
+Skrypt zawiera sekcje INSERT/seed służące do wygenerowania przykładowych danych (produkty, klienci, zamówienia, płatności itp.) zgodnie z wymaganiem posiadania danych historycznych do raportów.
 
 ---
 ### Załączniki / pliki
 - `msh_company_script.sql` – skrypt tworzący obiekty bazy danych
 - `data_generator.py` - skrypt tworzący dane 
-- `Projekt2025.pdf` – treść wymagań projektu fileciteturn1file0
+- `Projekt2025.pdf` – treść wymagań projektu
