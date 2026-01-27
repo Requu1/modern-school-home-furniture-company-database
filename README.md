@@ -1,7 +1,5 @@
 # MSH Company – dokumentacja bazy danych (MS SQL Server)
 
-> Ten plik README.md został wygenerowany na podstawie skryptu `msh_company_script.sql` oraz wymagań projektu z `Projekt2025.pdf`.
-
 ## 1. Cel systemu i kontekst biznesowy
 
 Baza danych wspiera firmę produkcyjno‑usługową zajmującą się **produkcją i sprzedażą mebli** (m.in. biurka, krzesła, stoły, fotele, stojaki i tablice interaktywne), wraz z planowaniem produkcji, kontrolą stanów magazynowych, obsługą zamówień, płatności oraz analityką (raporty sprzedaży i kosztów). fileciteturn1file0
