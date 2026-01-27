@@ -1,19 +1,17 @@
-# MSH Company – dokumentacja bazy danych (MS SQL Server)
+# Modern School & Home Company (MSH - Michał, Szymon, Hubert)
+
+### Zespół: 
+## 1. Michał Nowak
+## 2. Szymon Potępa 
+## 3. Hubert Myszka
 
 ## 1. Cel systemu i kontekst biznesowy
 
-Baza danych wspiera firmę produkcyjno‑usługową zajmującą się **produkcją i sprzedażą mebli** (m.in. biurka, krzesła, stoły, fotele, stojaki i tablice interaktywne), wraz z planowaniem produkcji, kontrolą stanów magazynowych, obsługą zamówień, płatności oraz analityką (raporty sprzedaży i kosztów). fileciteturn1file0
+Baza danych wspiera firmę produkcyjno‑usługową zajmującą się **produkcją i sprzedażą mebli** (m.in. biurka, krzesła, stoły, fotele, stojaki i tablice interaktywne), wraz z planowaniem produkcji, kontrolą stanów magazynowych, obsługą zamówień, płatności oraz analityką (raporty sprzedaży i kosztów).
 
-Kluczowe wymagania projektu obejmują m.in.: warunki integralności, widoki raportowe, procedury/funkcje/triggery realizujące kluczową logikę, indeksy oraz role i uprawnienia. fileciteturn1file1
+Kluczowe wymagania projektu obejmują m.in.: warunki integralności, widoki raportowe, procedury/funkcje/triggery realizujące kluczową logikę, indeksy oraz role i uprawnienia.
 
-## 2. Jak uruchomić skrypt
-
-1. Otwórz `msh_company_script.sql` w SQL Server Management Studio (SSMS).
-2. Upewnij się, że na górze skryptu jest poprawna baza (`USE [...]`).
-3. Uruchom cały skrypt (F5). Skrypt zawiera wiele batchy `GO`.
-4. Po wykonaniu skryptu obiekty będą dostępne w schemacie `dbo` (tabele, widoki, procedury, funkcje, triggery, typy) oraz zostaną utworzone role i nadane uprawnienia.
-
-## 3. Inwentarz obiektów
+## 2. Inwentarz obiektów
 
 - **Tabele**: 24
 - **Typy tabelaryczne (UDTT)**: 1
@@ -25,11 +23,11 @@ Kluczowe wymagania projektu obejmują m.in.: warunki integralności, widoki rapo
 - **Indeksy (CREATE INDEX)**: 28
 - **Role**: 4
 
-## 4. Tabele i warunki integralności
+## 3. Tabele i warunki integralności
 
 Poniżej znajduje się opis każdej tabeli: kolumny, podstawowe ograniczenia (NOT NULL / DEFAULT / CHECK), klucze (PK/UK) oraz relacje (FK).
 
-### 4.1. `dbo.Categories`
+### 3.1. `dbo.Categories`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -53,7 +51,7 @@ CREATE TABLE [dbo].[Categories](
 ```
 </details>
 
-### 4.2. `dbo.Customers`
+### 3.2. `dbo.Customers`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -87,7 +85,7 @@ CREATE TABLE [dbo].[Customers](
 ```
 </details>
 
-### 4.3. `dbo.Employees`
+### 3.3. `dbo.Employees`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -159,7 +157,7 @@ CREATE NONCLUSTERED INDEX [IX_Employees_OccupationID] ON [dbo].[Employees]
 ```
 </details>
 
-### 4.4. `dbo.Factories`
+### 3.4. `dbo.Factories`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -191,7 +189,7 @@ CREATE TABLE [dbo].[Factories](
 ```
 </details>
 
-### 4.5. `dbo.FactoriesAndCategories`
+### 3.5. `dbo.FactoriesAndCategories`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -221,7 +219,7 @@ REFERENCES [dbo].[Factories] ([FactoryID])
 ```
 </details>
 
-### 4.6. `dbo.FactoryCapacityCalendar`
+### 3.6. `dbo.FactoryCapacityCalendar`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -267,7 +265,7 @@ CREATE NONCLUSTERED INDEX [IX_FactoryCapacityCalendar_WorkDate] ON [dbo].[Factor
 ```
 </details>
 
-### 4.7. `dbo.FactoryCapacityReservations`
+### 3.7. `dbo.FactoryCapacityReservations`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -322,7 +320,7 @@ CREATE NONCLUSTERED INDEX [IX_FactoryCapacityReservations_POID] ON [dbo].[Factor
 ```
 </details>
 
-### 4.8. `dbo.MaterialSuppliers`
+### 3.8. `dbo.MaterialSuppliers`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -370,7 +368,7 @@ CREATE NONCLUSTERED INDEX [IX_MaterialSuppliers_SupplierID] ON [dbo].[MaterialSu
 ```
 </details>
 
-### 4.9. `dbo.Materials`
+### 3.9. `dbo.Materials`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -396,7 +394,7 @@ CREATE TABLE [dbo].[Materials](
 ```
 </details>
 
-### 4.10. `dbo.MaterialsForOneUnit`
+### 3.10. `dbo.MaterialsForOneUnit`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -442,7 +440,7 @@ CREATE NONCLUSTERED INDEX [IX_MaterialsForOneUnit_ProductID] ON [dbo].[Materials
 ```
 </details>
 
-### 4.11. `dbo.Occupation`
+### 3.11. `dbo.Occupation`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -466,7 +464,7 @@ CREATE TABLE [dbo].[Occupation](
 ```
 </details>
 
-### 4.12. `dbo.OrderDetails`
+### 3.12. `dbo.OrderDetails`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -520,7 +518,7 @@ CREATE NONCLUSTERED INDEX [IX_OrderDetails_ProductID] ON [dbo].[OrderDetails]
 ```
 </details>
 
-### 4.13. `dbo.Orders`
+### 3.13. `dbo.Orders`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -597,7 +595,7 @@ CREATE NONCLUSTERED INDEX [IX_Orders_ShipperID] ON [dbo].[Orders]
 ```
 </details>
 
-### 4.14. `dbo.PartSuppliers`
+### 3.14. `dbo.PartSuppliers`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -645,7 +643,7 @@ CREATE NONCLUSTERED INDEX [IX_PartSuppliers_SupplierID] ON [dbo].[PartSuppliers]
 ```
 </details>
 
-### 4.15. `dbo.Parts`
+### 3.15. `dbo.Parts`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -671,7 +669,7 @@ CREATE TABLE [dbo].[Parts](
 ```
 </details>
 
-### 4.16. `dbo.PartsForOneUnit`
+### 3.16. `dbo.PartsForOneUnit`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -717,7 +715,7 @@ CREATE NONCLUSTERED INDEX [IX_PartsForOneUnit_ProductID] ON [dbo].[PartsForOneUn
 ```
 </details>
 
-### 4.17. `dbo.Payments`
+### 3.17. `dbo.Payments`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -779,7 +777,7 @@ CREATE NONCLUSTERED INDEX [IX_Payments_TaxID] ON [dbo].[Payments]
 ```
 </details>
 
-### 4.18. `dbo.ProductProductionSpec`
+### 3.18. `dbo.ProductProductionSpec`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -812,7 +810,7 @@ ALTER TABLE [dbo].[ProductProductionSpec]  WITH CHECK ADD  CONSTRAINT [CK_Produc
 ```
 </details>
 
-### 4.19. `dbo.ProductionOrders`
+### 3.19. `dbo.ProductionOrders`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -905,7 +903,7 @@ CREATE NONCLUSTERED INDEX [IX_ProductionOrders_PlannedStart] ON [dbo].[Productio
 ```
 </details>
 
-### 4.20. `dbo.Products`
+### 3.20. `dbo.Products`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -952,7 +950,7 @@ CREATE NONCLUSTERED INDEX [IX_Products_CategoryID] ON [dbo].[Products]
 ```
 </details>
 
-### 4.21. `dbo.Refunds`
+### 3.21. `dbo.Refunds`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -1008,7 +1006,7 @@ CREATE NONCLUSTERED INDEX [IX_Refunds_ProductID] ON [dbo].[Refunds]
 ```
 </details>
 
-### 4.22. `dbo.Shippers`
+### 3.22. `dbo.Shippers`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -1038,7 +1036,7 @@ CREATE TABLE [dbo].[Shippers](
 ```
 </details>
 
-### 4.23. `dbo.Suppliers`
+### 3.23. `dbo.Suppliers`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -1068,7 +1066,7 @@ CREATE TABLE [dbo].[Suppliers](
 ```
 </details>
 
-### 4.24. `dbo.Taxes`
+### 3.24. `dbo.Taxes`
 
 | Kolumna | Typ | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
@@ -1094,7 +1092,7 @@ CREATE TABLE [dbo].[Taxes](
 ```
 </details>
 
-## 5. Typy użytkownika (UDTT)
+## 4. Typy użytkownika (UDTT)
 
 ### `dbo.OrderItemType`
 
@@ -1110,7 +1108,7 @@ CREATE TYPE [dbo].[OrderItemType] AS TABLE(
 )
 ```
 
-## 6. Funkcje (UDF)
+## 5. Funkcje (UDF)
 
 ### `dbo.AvailableStock`
 
@@ -1399,7 +1397,7 @@ BEGIN
 END;
 ```
 
-## 7. Procedury składowane
+## 6. Procedury składowane
 
 ### `dbo.AddPayment`
 
@@ -1880,7 +1878,7 @@ BEGIN
 END;
 ```
 
-## 8. Widoki
+## 7. Widoki
 
 ### `dbo.vFactoriesCategories`
 
@@ -2291,7 +2289,7 @@ FROM     dbo.Suppliers AS s LEFT OUTER JOIN
                   dbo.MaterialSuppliers AS ms ON ms.SupplierID = s.SupplierID
 ```
 
-## 9. Triggery
+## 8. Triggery
 
 ### `dbo.trg_OrderDetails_Stock`
 
@@ -2517,7 +2515,7 @@ BEGIN
 END
 ```
 
-## 10. Indeksy
+## 9. Indeksy
 
 Indeksy zostały utworzone głównie pod klucze obce (FK) oraz pola dat używane w raportach (np. zamówienia/płatności/planowanie produkcji).
 
@@ -2575,17 +2573,17 @@ Indeksy zostały utworzone głównie pod klucze obce (FK) oraz pola dat używane
 - `IX_Refunds_OrderID`: ([OrderID] ASC)
 - `IX_Refunds_ProductID`: ([ProductID] ASC)
 
-## 11. Role i uprawnienia
+## 10. Role i uprawnienia
 
 W systemie zdefiniowano role aplikacyjne oraz nadano im uprawnienia głównie do **widoków** i **procedur/funkcji**, zgodnie z zaleceniem „enterprise” (unikać dostępu do gołych tabel). fileciteturn1file1
 
-### 11.1. Zdefiniowane role
+### 10.1. Zdefiniowane role
 - `role_admin`
 - `role_production`
 - `role_reporting`
 - `role_sales`
 
-### 11.2. Uprawnienia per rola (GRANT)
+### 10.2. Uprawnienia per rola (GRANT)
 #### `role_admin`
 - `DATABASE`: CONTROL
 
@@ -2653,7 +2651,7 @@ W systemie zdefiniowano role aplikacyjne oraz nadano im uprawnienia głównie do
 - `dbo.vSales_ByCategory_Month`: SELECT
 - `dbo.vSales_ByCategory_Week`: SELECT
 
-## 12. Uwagi dot. danych testowych (seed)
+## 11. Uwagi dot. danych testowych (seed)
 
 Skrypt zawiera sekcje INSERT/seed służące do wygenerowania przykładowych danych (produkty, klienci, zamówienia, płatności itp.) zgodnie z wymaganiem posiadania danych historycznych do raportów. fileciteturn1file1
 
