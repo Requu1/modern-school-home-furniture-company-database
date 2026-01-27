@@ -2659,5 +2659,6 @@ Skrypt zawiera sekcje INSERT/seed służące do wygenerowania przykładowych dan
 
 ---
 ### Załączniki / pliki
-- `msh_company_script.sql` – pełny skrypt tworzący obiekty i dane
+- `msh_company_script.sql` – skrypt tworzący obiekty bazy danych
+- `data_generator.py` - skrypt tworzący dane 
 - `Projekt2025.pdf` – treść wymagań projektu fileciteturn1file0
