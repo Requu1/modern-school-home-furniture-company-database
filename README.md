@@ -1,43 +1,43 @@
 # Modern School & Home Company (MSH - Michał, Szymon, Hubert)
 
-### Zespół: 
+### Team: 
 #  Michał Nowak
 #  Szymon Potępa 
 # Hubert Myszka
 
-## 1. Cel systemu i kontekst biznesowy
+## 1. System purpose and business context
 
-Baza danych wspiera firmę produkcyjno‑usługową zajmującą się **produkcją i sprzedażą mebli** (m.in. biurka, krzesła, stoły, fotele, stojaki i tablice interaktywne), wraz z planowaniem produkcji, kontrolą stanów magazynowych, obsługą zamówień, płatności oraz analityką (raporty sprzedaży i kosztów).
+The database supports a manufacturing and service company engaged in the **production and sale of furniture** (including desks, chairs, tables, armchairs, stands, and interactive whiteboards), together with production planning, inventory control, order processing, payments, and analytics (sales and cost reports).
 
-Kluczowe wymagania projektu obejmują m.in.: warunki integralności, widoki raportowe, procedury/funkcje/triggery realizujące kluczową logikę, indeksy oraz role i uprawnienia.
+The key project requirements include, among others, integrity constraints, reporting views, procedures/functions/triggers implementing key logic, indexes, as well as roles and permissions.
 
-## 2. Inwentarz obiektów
+## 2. Object inventory
 
-- **Tabele**: 24
-- **Typy tabelaryczne (UDTT)**: 1
-- **Funkcje (UDF)**: 10
-- **Procedury składowane**: 7
-- **Widoki**: 17
-- **Triggery**: 4
-- **Ograniczenia (ALTER TABLE … ADD CONSTRAINT)**: 39
-- **Indeksy (CREATE INDEX)**: 28
-- **Role**: 4
+- **Tables**: 24
+- **Table types (UDTT)**: 1
+- **Functions (UDF)**: 10
+- **Stored procedures**: 7
+- **Views**: 17
+- **Triggers**: 4
+- **Constraints (ALTER TABLE … ADD CONSTRAINT)**: 39
+- **Indexes (CREATE INDEX)**: 28
+- **Roles**: 4
 
-## 3. Tabele i warunki integralności
+## 3. Tables and integrity constraints
 
-Poniżej znajduje się opis każdej tabeli: kolumny, podstawowe ograniczenia (NOT NULL / DEFAULT / CHECK), klucze (PK/UK) oraz relacje (FK).
+Below is a description of each table: columns, basic constraints (NOT NULL / DEFAULT / CHECK), keys (PK/UK), and relationships (FK).
 
 ### 3.1. `dbo.Categories`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `CategoryID` | [int] | NIE |  |  |
-| `CategoryName` | [varchar](50) | NIE |  |  |
+| `CategoryID` | [int] | NO |  |  |
+| `CategoryName` | [varchar](50) | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED ( [CategoryID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Categories](
@@ -53,20 +53,20 @@ CREATE TABLE [dbo].[Categories](
 
 ### 3.2. `dbo.Customers`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `CustomerID` | [int] | NIE |  |  |
-| `CustomerName` | [varchar](50) | TAK |  |  |
-| `Address` | [varchar](50) | TAK |  |  |
-| `Phone` | [varchar](50) | TAK |  |  |
-| `NIP` | [int] | TAK |  |  |
-| `EmailAddress` | [varchar](50) | TAK |  |  |
-| `Anonymous` | [bit] | NIE |  |  |
+| `CustomerID` | [int] | NO |  |  |
+| `CustomerName` | [varchar](50) | YES |  |  |
+| `Address` | [varchar](50) | YES |  |  |
+| `Phone` | [varchar](50) | YES |  |  |
+| `NIP` | [int] | YES |  |  |
+| `EmailAddress` | [varchar](50) | YES |  |  |
+| `Anonymous` | [bit] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED ( [CustomerID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Customers](
@@ -87,34 +87,34 @@ CREATE TABLE [dbo].[Customers](
 
 ### 3.3. `dbo.Employees`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `EmployeeID` | [int] | NIE |  |  |
-| `FactoryID` | [int] | NIE |  |  |
-| `OccupationID` | [int] | NIE |  |  |
-| `FirstName` | [varchar](50) | NIE |  |  |
-| `LastName` | [varchar](50) | NIE |  |  |
-| `BirthDate` | [date] | NIE |  |  |
-| `Gender` | [varchar](50) | NIE |  |  |
-| `Phone` | [varchar](50) | NIE |  |  |
-| `Salary` | [float] | NIE |  |  |
-| `HireDate` | [date] | NIE |  |  |
-| `Nationality` | [varchar](50) | NIE |  |  |
-| `EmailAddress` | [varchar](50) | NIE |  |  |
-| `DisabilityStatement` | [bit] | NIE |  |  |
+| `EmployeeID` | [int] | NO |  |  |
+| `FactoryID` | [int] | NO |  |  |
+| `OccupationID` | [int] | NO |  |  |
+| `FirstName` | [varchar](50) | NO |  |  |
+| `LastName` | [varchar](50) | NO |  |  |
+| `BirthDate` | [date] | NO |  |  |
+| `Gender` | [varchar](50) | NO |  |  |
+| `Phone` | [varchar](50) | NO |  |  |
+| `Salary` | [float] | NO |  |  |
+| `HireDate` | [date] | NO |  |  |
+| `Nationality` | [varchar](50) | NO |  |  |
+| `EmailAddress` | [varchar](50) | NO |  |  |
+| `DisabilityStatement` | [bit] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED ( [EmployeeID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[Employees]  WITH CHECK ADD  CONSTRAINT [FK_Employees_Factories] FOREIGN KEY([FactoryID])`
 - `ALTER TABLE [dbo].[Employees]  WITH CHECK ADD  CONSTRAINT [FK_Employees_Occupation] FOREIGN KEY([OccupationID])`
 
-**Indeksy:**
-- `IX_Employees_FactoryID` na ([FactoryID] ASC)
-- `IX_Employees_OccupationID` na ([OccupationID] ASC)
+**Indexes:**
+- `IX_Employees_FactoryID` on ([FactoryID] ASC)
+- `IX_Employees_OccupationID` on ([OccupationID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Employees](
@@ -159,19 +159,19 @@ CREATE NONCLUSTERED INDEX [IX_Employees_OccupationID] ON [dbo].[Employees]
 
 ### 3.4. `dbo.Factories`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `FactoryID` | [int] | NIE |  |  |
-| `FactoryName` | [varchar](50) | NIE |  |  |
-| `Address` | [varchar](50) | NIE |  |  |
-| `Phone` | [varchar](50) | NIE |  |  |
-| `EmailAddress` | [varchar](50) | NIE |  |  |
-| `Website` | [varchar](50) | TAK |  |  |
+| `FactoryID` | [int] | NO |  |  |
+| `FactoryName` | [varchar](50) | NO |  |  |
+| `Address` | [varchar](50) | NO |  |  |
+| `Phone` | [varchar](50) | NO |  |  |
+| `EmailAddress` | [varchar](50) | NO |  |  |
+| `Website` | [varchar](50) | YES |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Factories] PRIMARY KEY CLUSTERED ( [FactoryID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Factories](
@@ -191,18 +191,18 @@ CREATE TABLE [dbo].[Factories](
 
 ### 3.5. `dbo.FactoriesAndCategories`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `CategoryID` | [int] | NIE |  |  |
-| `FactoryID` | [int] | NIE |  |  |
-| `ProductionCost` | [int] | NIE |  |  |
+| `CategoryID` | [int] | NO |  |  |
+| `FactoryID` | [int] | NO |  |  |
+| `ProductionCost` | [int] | NO |  |  |
 
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[FactoriesAndCategories]  WITH CHECK ADD  CONSTRAINT [FK_FactoriesAndCategories_Categories] FOREIGN KEY([CategoryID])`
 - `ALTER TABLE [dbo].[FactoriesAndCategories]  WITH CHECK ADD  CONSTRAINT [FK_FactoriesAndCategories_Factories] FOREIGN KEY([FactoryID])`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[FactoriesAndCategories](
@@ -221,23 +221,23 @@ REFERENCES [dbo].[Factories] ([FactoryID])
 
 ### 3.6. `dbo.FactoryCapacityCalendar`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `FactoryID` | [int] | NIE |  |  |
-| `WorkDate` | [date] | NIE |  |  |
-| `CapacityHours` | [decimal](6, 2) | NIE |  |  |
+| `FactoryID` | [int] | NO |  |  |
+| `WorkDate` | [date] | NO |  |  |
+| `CapacityHours` | [decimal](6, 2) | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_FactoryCapacityCalendar] PRIMARY KEY CLUSTERED ( [FactoryID] ASC, [WorkDate] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[FactoryCapacityCalendar]  WITH CHECK ADD  CONSTRAINT [FK_FactoryCapacityCalendar_Factories] FOREIGN KEY([FactoryID])`
 - `ALTER TABLE [dbo].[FactoryCapacityCalendar]  WITH CHECK ADD  CONSTRAINT [CK_FactoryCapacityCalendar_Capacity] CHECK  (([CapacityHours]>=(0) AND [CapacityHours]<=(24)))`
 
-**Indeksy:**
-- `IX_FactoryCapacityCalendar_WorkDate` na ([WorkDate] ASC)
+**Indexes:**
+- `IX_FactoryCapacityCalendar_WorkDate` on ([WorkDate] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[FactoryCapacityCalendar](
@@ -267,26 +267,26 @@ CREATE NONCLUSTERED INDEX [IX_FactoryCapacityCalendar_WorkDate] ON [dbo].[Factor
 
 ### 3.7. `dbo.FactoryCapacityReservations`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `FactoryID` | [int] | NIE |  |  |
-| `WorkDate` | [date] | NIE |  |  |
-| `ProductionOrderID` | [int] | NIE |  |  |
-| `ReservedHours` | [decimal](6, 2) | NIE |  |  |
+| `FactoryID` | [int] | NO |  |  |
+| `WorkDate` | [date] | NO |  |  |
+| `ProductionOrderID` | [int] | NO |  |  |
+| `ReservedHours` | [decimal](6, 2) | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_FactoryCapacityReservations] PRIMARY KEY CLUSTERED ( [FactoryID] ASC, [WorkDate] ASC, [ProductionOrderID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[FactoryCapacityReservations]  WITH CHECK ADD  CONSTRAINT [FK_FactoryCapacityReservations_Calendar] FOREIGN KEY([FactoryID], [WorkDate])`
 - `ALTER TABLE [dbo].[FactoryCapacityReservations]  WITH CHECK ADD  CONSTRAINT [FK_FactoryCapacityReservations_Factories] FOREIGN KEY([FactoryID])`
 - `ALTER TABLE [dbo].[FactoryCapacityReservations]  WITH CHECK ADD  CONSTRAINT [FK_FactoryCapacityReservations_ProductionOrders] FOREIGN KEY([ProductionOrderID])`
 - `ALTER TABLE [dbo].[FactoryCapacityReservations]  WITH CHECK ADD  CONSTRAINT [CK_FactoryCapacityReservations_Reserved] CHECK  (([ReservedHours]>(0) AND [ReservedHours]<=(24)))`
 
-**Indeksy:**
-- `IX_FactoryCapacityReservations_POID` na ([ProductionOrderID] ASC)
+**Indexes:**
+- `IX_FactoryCapacityReservations_POID` on ([ProductionOrderID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[FactoryCapacityReservations](
@@ -322,23 +322,23 @@ CREATE NONCLUSTERED INDEX [IX_FactoryCapacityReservations_POID] ON [dbo].[Factor
 
 ### 3.8. `dbo.MaterialSuppliers`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `MaterialID` | [int] | NIE |  |  |
-| `SupplierID` | [int] | NIE |  |  |
-| `UnitPrice` | [int] | NIE |  |  |
-| `Freight` | [int] | NIE |  |  |
+| `MaterialID` | [int] | NO |  |  |
+| `SupplierID` | [int] | NO |  |  |
+| `UnitPrice` | [int] | NO |  |  |
+| `Freight` | [int] | NO |  |  |
 
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[MaterialSuppliers]  WITH CHECK ADD  CONSTRAINT [FK_MaterialSuppliers_Materials] FOREIGN KEY([MaterialID])`
 - `ALTER TABLE [dbo].[MaterialSuppliers]  WITH CHECK ADD  CONSTRAINT [FK_MaterialSuppliers_Suppliers] FOREIGN KEY([SupplierID])`
 
-**Indeksy:**
-- `IX_MaterialSuppliers_MaterialID` na ([MaterialID] ASC)
-- `IX_MaterialSuppliers_SupplierID` na ([SupplierID] ASC)
+**Indexes:**
+- `IX_MaterialSuppliers_MaterialID` on ([MaterialID] ASC)
+- `IX_MaterialSuppliers_SupplierID` on ([SupplierID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[MaterialSuppliers](
@@ -370,16 +370,16 @@ CREATE NONCLUSTERED INDEX [IX_MaterialSuppliers_SupplierID] ON [dbo].[MaterialSu
 
 ### 3.9. `dbo.Materials`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `MaterialID` | [int] | NIE |  |  |
-| `MaterialName` | [varchar](50) | NIE |  |  |
-| `UnitsInStock` | [int] | NIE |  |  |
+| `MaterialID` | [int] | NO |  |  |
+| `MaterialName` | [varchar](50) | NO |  |  |
+| `UnitsInStock` | [int] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Materials] PRIMARY KEY CLUSTERED ( [MaterialID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Materials](
@@ -396,22 +396,22 @@ CREATE TABLE [dbo].[Materials](
 
 ### 3.10. `dbo.MaterialsForOneUnit`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `ProductID` | [int] | NIE |  |  |
-| `MaterialID` | [int] | NIE |  |  |
-| `QuantityNeeded` | [int] | NIE |  |  |
+| `ProductID` | [int] | NO |  |  |
+| `MaterialID` | [int] | NO |  |  |
+| `QuantityNeeded` | [int] | NO |  |  |
 
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[MaterialsForOneUnit]  WITH CHECK ADD  CONSTRAINT [FK_MaterialsForOneUnit_Materials] FOREIGN KEY([MaterialID])`
 - `ALTER TABLE [dbo].[MaterialsForOneUnit]  WITH CHECK ADD  CONSTRAINT [FK_MaterialsForOneUnit_Products] FOREIGN KEY([ProductID])`
 
-**Indeksy:**
-- `IX_MaterialsForOneUnit_MaterialID` na ([MaterialID] ASC)
-- `IX_MaterialsForOneUnit_ProductID` na ([ProductID] ASC)
+**Indexes:**
+- `IX_MaterialsForOneUnit_MaterialID` on ([MaterialID] ASC)
+- `IX_MaterialsForOneUnit_ProductID` on ([ProductID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[MaterialsForOneUnit](
@@ -442,15 +442,15 @@ CREATE NONCLUSTERED INDEX [IX_MaterialsForOneUnit_ProductID] ON [dbo].[Materials
 
 ### 3.11. `dbo.Occupation`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `OccupationID` | [int] | NIE |  |  |
-| `OccupationName` | [varchar](50) | NIE |  |  |
+| `OccupationID` | [int] | NO |  |  |
+| `OccupationName` | [varchar](50) | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Occupation] PRIMARY KEY CLUSTERED ( [OccupationID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Occupation](
@@ -466,26 +466,26 @@ CREATE TABLE [dbo].[Occupation](
 
 ### 3.12. `dbo.OrderDetails`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `OrderID` | [int] | NIE |  |  |
-| `ProductID` | [int] | NIE |  |  |
-| `UnitPrice` | [int] | NIE |  |  |
-| `Quantity` | [int] | NIE |  |  |
-| `Discount` | [int] | NIE |  |  |
-| `QuantityFromStock` | [int] | NIE |  |  |
+| `OrderID` | [int] | NO |  |  |
+| `ProductID` | [int] | NO |  |  |
+| `UnitPrice` | [int] | NO |  |  |
+| `Quantity` | [int] | NO |  |  |
+| `Discount` | [int] | NO |  |  |
+| `QuantityFromStock` | [int] | NO |  |  |
 
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[OrderDetails]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetails_Orders] FOREIGN KEY([OrderID])`
 - `ALTER TABLE [dbo].[OrderDetails]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetails_Products] FOREIGN KEY([ProductID])`
 - `ALTER TABLE [dbo].[OrderDetails]  WITH CHECK ADD  CONSTRAINT [CK_OrderDetails_QuantityFromStock] CHECK  (([QuantityFromStock]>=(0) AND [QuantityFromStock]<=[Quantity]))`
 
-**Indeksy:**
-- `IX_OrderDetails_OrderID` na ([OrderID] ASC)
-- `IX_OrderDetails_ProductID` na ([ProductID] ASC)
+**Indexes:**
+- `IX_OrderDetails_OrderID` on ([OrderID] ASC)
+- `IX_OrderDetails_ProductID` on ([ProductID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[OrderDetails](
@@ -520,32 +520,32 @@ CREATE NONCLUSTERED INDEX [IX_OrderDetails_ProductID] ON [dbo].[OrderDetails]
 
 ### 3.13. `dbo.Orders`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `OrderID` | [int] | NIE |  |  |
-| `EmployeeID` | [int] | NIE |  |  |
-| `CustomerID` | [int] | NIE |  |  |
-| `ShipperID` | [int] | NIE |  |  |
-| `OrderDate` | [date] | NIE |  |  |
-| `ShipDate` | [date] | TAK |  |  |
-| `Freight` | [int] | NIE |  |  |
-| `RequestedDeliveryDate` | [date] | NIE |  |  |
+| `OrderID` | [int] | NO |  |  |
+| `EmployeeID` | [int] | NO |  |  |
+| `CustomerID` | [int] | NO |  |  |
+| `ShipperID` | [int] | NO |  |  |
+| `OrderDate` | [date] | NO |  |  |
+| `ShipDate` | [date] | YES |  |  |
+| `Freight` | [int] | NO |  |  |
+| `RequestedDeliveryDate` | [date] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED ( [OrderID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_Customers] FOREIGN KEY([CustomerID])`
 - `ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_Employees] FOREIGN KEY([EmployeeID])`
 - `ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_Shippers] FOREIGN KEY([ShipperID])`
 
-**Indeksy:**
-- `IX_Orders_CustomerID` na ([CustomerID] ASC)
-- `IX_Orders_EmployeeID` na ([EmployeeID] ASC)
-- `IX_Orders_OrderDate` na ([OrderDate] ASC)
-- `IX_Orders_ShipperID` na ([ShipperID] ASC)
+**Indexes:**
+- `IX_Orders_CustomerID` on ([CustomerID] ASC)
+- `IX_Orders_EmployeeID` on ([EmployeeID] ASC)
+- `IX_Orders_OrderDate` on ([OrderDate] ASC)
+- `IX_Orders_ShipperID` on ([ShipperID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Orders](
@@ -597,23 +597,23 @@ CREATE NONCLUSTERED INDEX [IX_Orders_ShipperID] ON [dbo].[Orders]
 
 ### 3.14. `dbo.PartSuppliers`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `SupplierID` | [int] | NIE |  |  |
-| `PartID` | [int] | NIE |  |  |
-| `UnitPrice` | [int] | NIE |  |  |
-| `Freight` | [int] | NIE |  |  |
+| `SupplierID` | [int] | NO |  |  |
+| `PartID` | [int] | NO |  |  |
+| `UnitPrice` | [int] | NO |  |  |
+| `Freight` | [int] | NO |  |  |
 
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[PartSuppliers]  WITH CHECK ADD  CONSTRAINT [FK_PartSuppliers_Parts] FOREIGN KEY([PartID])`
 - `ALTER TABLE [dbo].[PartSuppliers]  WITH CHECK ADD  CONSTRAINT [FK_PartSuppliers_Suppliers] FOREIGN KEY([SupplierID])`
 
-**Indeksy:**
-- `IX_PartSuppliers_PartID` na ([PartID] ASC)
-- `IX_PartSuppliers_SupplierID` na ([SupplierID] ASC)
+**Indexes:**
+- `IX_PartSuppliers_PartID` on ([PartID] ASC)
+- `IX_PartSuppliers_SupplierID` on ([SupplierID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[PartSuppliers](
@@ -645,16 +645,16 @@ CREATE NONCLUSTERED INDEX [IX_PartSuppliers_SupplierID] ON [dbo].[PartSuppliers]
 
 ### 3.15. `dbo.Parts`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `PartID` | [int] | NIE |  |  |
-| `PartName` | [varchar](50) | NIE |  |  |
-| `UnitsInStock` | [int] | NIE |  |  |
+| `PartID` | [int] | NO |  |  |
+| `PartName` | [varchar](50) | NO |  |  |
+| `UnitsInStock` | [int] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Parts] PRIMARY KEY CLUSTERED ( [PartID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Parts](
@@ -671,22 +671,22 @@ CREATE TABLE [dbo].[Parts](
 
 ### 3.16. `dbo.PartsForOneUnit`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `ProductID` | [int] | NIE |  |  |
-| `PartID` | [int] | NIE |  |  |
-| `QuantityNeeded` | [int] | NIE |  |  |
+| `ProductID` | [int] | NO |  |  |
+| `PartID` | [int] | NO |  |  |
+| `QuantityNeeded` | [int] | NO |  |  |
 
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[PartsForOneUnit]  WITH CHECK ADD  CONSTRAINT [FK_PartsForOneUnit_Parts] FOREIGN KEY([PartID])`
 - `ALTER TABLE [dbo].[PartsForOneUnit]  WITH CHECK ADD  CONSTRAINT [FK_PartsForOneUnit_Products] FOREIGN KEY([ProductID])`
 
-**Indeksy:**
-- `IX_PartsForOneUnit_PartID` na ([PartID] ASC)
-- `IX_PartsForOneUnit_ProductID` na ([ProductID] ASC)
+**Indexes:**
+- `IX_PartsForOneUnit_PartID` on ([PartID] ASC)
+- `IX_PartsForOneUnit_ProductID` on ([ProductID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[PartsForOneUnit](
@@ -717,27 +717,27 @@ CREATE NONCLUSTERED INDEX [IX_PartsForOneUnit_ProductID] ON [dbo].[PartsForOneUn
 
 ### 3.17. `dbo.Payments`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `PaymentID` | [int] | NIE |  |  |
-| `TaxID` | [int] | NIE |  |  |
-| `OrderID` | [int] | NIE |  |  |
-| `Amount` | [int] | NIE |  |  |
-| `PaymentDate` | [date] | NIE |  |  |
+| `PaymentID` | [int] | NO |  |  |
+| `TaxID` | [int] | NO |  |  |
+| `OrderID` | [int] | NO |  |  |
+| `Amount` | [int] | NO |  |  |
+| `PaymentDate` | [date] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Payments] PRIMARY KEY CLUSTERED ( [PaymentID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[Payments]  WITH CHECK ADD  CONSTRAINT [FK_Payments_Orders] FOREIGN KEY([OrderID])`
 - `ALTER TABLE [dbo].[Payments]  WITH CHECK ADD  CONSTRAINT [FK_Payments_Taxes] FOREIGN KEY([TaxID])`
 
-**Indeksy:**
-- `IX_Payments_OrderID` na ([OrderID] ASC)
-- `IX_Payments_PaymentDate` na ([PaymentDate] ASC)
-- `IX_Payments_TaxID` na ([TaxID] ASC)
+**Indexes:**
+- `IX_Payments_OrderID` on ([OrderID] ASC)
+- `IX_Payments_PaymentDate` on ([PaymentDate] ASC)
+- `IX_Payments_TaxID` on ([TaxID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Payments](
@@ -779,19 +779,19 @@ CREATE NONCLUSTERED INDEX [IX_Payments_TaxID] ON [dbo].[Payments]
 
 ### 3.18. `dbo.ProductProductionSpec`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `ProductID` | [int] | NIE |  |  |
-| `HoursPerUnit` | [decimal](8, 4) | NIE |  |  |
+| `ProductID` | [int] | NO |  |  |
+| `HoursPerUnit` | [decimal](8, 4) | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_ProductProductionSpec] PRIMARY KEY CLUSTERED ( [ProductID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[ProductProductionSpec]  WITH CHECK ADD  CONSTRAINT [FK_ProductProductionSpec_Products] FOREIGN KEY([ProductID])`
 - `ALTER TABLE [dbo].[ProductProductionSpec]  WITH CHECK ADD  CONSTRAINT [CK_ProductProductionSpec_HoursPerUnit] CHECK  (([HoursPerUnit]>(0) AND [HoursPerUnit]<=(24)))`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[ProductProductionSpec](
@@ -812,25 +812,25 @@ ALTER TABLE [dbo].[ProductProductionSpec]  WITH CHECK ADD  CONSTRAINT [CK_Produc
 
 ### 3.19. `dbo.ProductionOrders`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `ProductionOrderID` | [int] IDENTITY(1,1) | NIE |  |  |
-| `OrderID` | [int] | TAK |  |  |
-| `ProductID` | [int] | NIE |  |  |
-| `FactoryID` | [int] | NIE |  |  |
-| `Quantity` | [int] | NIE |  |  |
-| `CreatedAt` | [datetime2](0) | NIE |  |  |
-| `PlannedStart` | [datetime2](0) | TAK |  |  |
-| `PlannedEnd` | [datetime2](0) | TAK |  |  |
-| `DueDate` | [datetime2](0) | TAK |  |  |
-| `Status` | [tinyint] | NIE |  |  |
-| `Priority` | [tinyint] | NIE |  |  |
-| `Notes` | [nvarchar](400) | TAK |  |  |
+| `ProductionOrderID` | [int] IDENTITY(1,1) | NO |  |  |
+| `OrderID` | [int] | YES |  |  |
+| `ProductID` | [int] | NO |  |  |
+| `FactoryID` | [int] | NO |  |  |
+| `Quantity` | [int] | NO |  |  |
+| `CreatedAt` | [datetime2](0) | NO |  |  |
+| `PlannedStart` | [datetime2](0) | YES |  |  |
+| `PlannedEnd` | [datetime2](0) | YES |  |  |
+| `DueDate` | [datetime2](0) | YES |  |  |
+| `Status` | [tinyint] | NO |  |  |
+| `Priority` | [tinyint] | NO |  |  |
+| `Notes` | [nvarchar](400) | YES |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_ProductionOrders] PRIMARY KEY CLUSTERED ( [ProductionOrderID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[ProductionOrders]  WITH CHECK ADD  CONSTRAINT [FK_ProductionOrders_Factories] FOREIGN KEY([FactoryID])`
 - `ALTER TABLE [dbo].[ProductionOrders]  WITH CHECK ADD  CONSTRAINT [FK_ProductionOrders_Orders] FOREIGN KEY([OrderID])`
 - `ALTER TABLE [dbo].[ProductionOrders]  WITH CHECK ADD  CONSTRAINT [FK_ProductionOrders_Products] FOREIGN KEY([ProductID])`
@@ -839,13 +839,13 @@ ALTER TABLE [dbo].[ProductProductionSpec]  WITH CHECK ADD  CONSTRAINT [CK_Produc
 - `ALTER TABLE [dbo].[ProductionOrders]  WITH CHECK ADD  CONSTRAINT [CK_ProductionOrders_Quantity] CHECK  (([Quantity]>(0)))`
 - `ALTER TABLE [dbo].[ProductionOrders]  WITH CHECK ADD  CONSTRAINT [CK_ProductionOrders_Status] CHECK  (([Status]=(5) OR [Status]=(4) OR [Status]=(3) OR [Status]=(2) OR [Status]=(1) OR [Status]=(0)))`
 
-**Indeksy:**
-- `IX_ProductionOrders_CreatedAt` na ([CreatedAt] ASC)
-- `IX_ProductionOrders_FactoryID` na ([FactoryID] ASC)
-- `IX_ProductionOrders_OrderID` na ([OrderID] ASC)
-- `IX_ProductionOrders_PlannedStart` na ([PlannedStart] ASC)
+**Indexes:**
+- `IX_ProductionOrders_CreatedAt` on ([CreatedAt] ASC)
+- `IX_ProductionOrders_FactoryID` on ([FactoryID] ASC)
+- `IX_ProductionOrders_OrderID` on ([OrderID] ASC)
+- `IX_ProductionOrders_PlannedStart` on ([PlannedStart] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[ProductionOrders](
@@ -905,24 +905,24 @@ CREATE NONCLUSTERED INDEX [IX_ProductionOrders_PlannedStart] ON [dbo].[Productio
 
 ### 3.20. `dbo.Products`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `ProductID` | [int] | NIE |  |  |
-| `ProductName` | [varchar](50) | NIE |  |  |
-| `UnitsInStock` | [int] | NIE |  |  |
-| `CategoryID` | [int] | NIE |  |  |
-| `UnitPrice` | [int] | NIE |  |  |
+| `ProductID` | [int] | NO |  |  |
+| `ProductName` | [varchar](50) | NO |  |  |
+| `UnitsInStock` | [int] | NO |  |  |
+| `CategoryID` | [int] | NO |  |  |
+| `UnitPrice` | [int] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED ( [ProductID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[Products]  WITH CHECK ADD  CONSTRAINT [FK_Products_Categories] FOREIGN KEY([CategoryID])`
 
-**Indeksy:**
-- `IX_Products_CategoryID` na ([CategoryID] ASC)
+**Indexes:**
+- `IX_Products_CategoryID` on ([CategoryID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Products](
@@ -952,26 +952,26 @@ CREATE NONCLUSTERED INDEX [IX_Products_CategoryID] ON [dbo].[Products]
 
 ### 3.21. `dbo.Refunds`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `RefundID` | [int] | NIE |  |  |
-| `OrderID` | [int] | NIE |  |  |
-| `ProductID` | [int] | NIE |  |  |
-| `Quantity` | [int] | NIE |  |  |
-| `RefundApproved` | [bit] | NIE |  |  |
+| `RefundID` | [int] | NO |  |  |
+| `OrderID` | [int] | NO |  |  |
+| `ProductID` | [int] | NO |  |  |
+| `Quantity` | [int] | NO |  |  |
+| `RefundApproved` | [bit] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Refunds] PRIMARY KEY CLUSTERED ( [RefundID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-**Dodatkowe ograniczenia (ALTER TABLE … ADD CONSTRAINT):**
+**Additional constraints (ALTER TABLE … ADD CONSTRAINT):**
 - `ALTER TABLE [dbo].[Refunds]  WITH CHECK ADD  CONSTRAINT [FK_Refunds_Orders] FOREIGN KEY([OrderID])`
 - `ALTER TABLE [dbo].[Refunds]  WITH CHECK ADD  CONSTRAINT [FK_Refunds_Products] FOREIGN KEY([ProductID])`
 
-**Indeksy:**
-- `IX_Refunds_OrderID` na ([OrderID] ASC)
-- `IX_Refunds_ProductID` na ([ProductID] ASC)
+**Indexes:**
+- `IX_Refunds_OrderID` on ([OrderID] ASC)
+- `IX_Refunds_ProductID` on ([ProductID] ASC)
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Refunds](
@@ -1008,18 +1008,18 @@ CREATE NONCLUSTERED INDEX [IX_Refunds_ProductID] ON [dbo].[Refunds]
 
 ### 3.22. `dbo.Shippers`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `ShipperID` | [int] | NIE |  |  |
-| `CompanyName` | [varchar](50) | NIE |  |  |
-| `Phone` | [varchar](50) | NIE |  |  |
-| `Address` | [varchar](50) | NIE |  |  |
-| `EmailAddress` | [varchar](50) | NIE |  |  |
+| `ShipperID` | [int] | NO |  |  |
+| `CompanyName` | [varchar](50) | NO |  |  |
+| `Phone` | [varchar](50) | NO |  |  |
+| `Address` | [varchar](50) | NO |  |  |
+| `EmailAddress` | [varchar](50) | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Shippers] PRIMARY KEY CLUSTERED ( [ShipperID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Shippers](
@@ -1038,18 +1038,18 @@ CREATE TABLE [dbo].[Shippers](
 
 ### 3.23. `dbo.Suppliers`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `SupplierID` | [int] | NIE |  |  |
-| `CompanyName` | [varchar](50) | NIE |  |  |
-| `Phone` | [varchar](50) | NIE |  |  |
-| `Address` | [varchar](50) | NIE |  |  |
-| `EmailAdress` | [varchar](50) | NIE |  |  |
+| `SupplierID` | [int] | NO |  |  |
+| `CompanyName` | [varchar](50) | NO |  |  |
+| `Phone` | [varchar](50) | NO |  |  |
+| `Address` | [varchar](50) | NO |  |  |
+| `EmailAdress` | [varchar](50) | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Suppliers] PRIMARY KEY CLUSTERED ( [SupplierID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Suppliers](
@@ -1068,16 +1068,16 @@ CREATE TABLE [dbo].[Suppliers](
 
 ### 3.24. `dbo.Taxes`
 
-| Kolumna | Typ | NULL | DEFAULT | CHECK |
+| Column | Type | NULL | DEFAULT | CHECK |
 |---|---|---:|---|---|
-| `TaxID` | [int] | NIE |  |  |
-| `TaxName` | [varchar](50) | NIE |  |  |
-| `TaxValue` | [int] | NIE |  |  |
+| `TaxID` | [int] | NO |  |  |
+| `TaxName` | [varchar](50) | NO |  |  |
+| `TaxValue` | [int] | NO |  |  |
 
-**Ograniczenia w definicji tabeli (CREATE TABLE):**
+**Constraints in the table definition (CREATE TABLE):**
 - `CONSTRAINT [PK_Taxes] PRIMARY KEY CLUSTERED ( [TaxID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]`
 
-<details><summary>DDL (kod tworzący tabelę + powiązane ograniczenia/indeksy)</summary>
+<details><summary>DDL (table creation code + related constraints/indexes)</summary>
 
 ```sql
 CREATE TABLE [dbo].[Taxes](
@@ -1092,11 +1092,11 @@ CREATE TABLE [dbo].[Taxes](
 ```
 </details>
 
-## 4. Typy użytkownika (UDTT)
+## 4. User-defined table types (UDTT)
 
 ### `dbo.OrderItemType`
 
-**Opis:** Typ tabelaryczny używany do przekazywania listy pozycji zamówienia do procedur (np. składanie zamówienia).
+**Description:** Table type used to pass a list of order items to procedures (e.g. placing an order).
 
 ```sql
 /****** Object:  UserDefinedTableType [dbo].[OrderItemType]    Script Date: 27.01.2026 13:39:50 ******/
@@ -1108,11 +1108,11 @@ CREATE TYPE [dbo].[OrderItemType] AS TABLE(
 )
 ```
 
-## 5. Funkcje (UDF)
+## 5. Functions (UDF)
 
 ### `dbo.AvailableStock`
 
-**Opis:** Zwraca dostępny stan magazynowy produktu (z uwzględnieniem rezerwacji/zużyć).
+**Description:** Returns the available stock level of a product (including reservations/consumption).
 
 ```sql
 CREATE   FUNCTION [dbo].[AvailableStock]
@@ -1134,7 +1134,7 @@ END
 
 ### `dbo.CalculateMaterialCostForProduct`
 
-**Opis:** Liczy koszt materiałów potrzebnych do wytworzenia 1 sztuki produktu na podstawie BOM i cenników dostawców.
+**Description:** Calculates the cost of materials needed to produce 1 unit of a product based on the BOM and supplier price lists.
 
 ```sql
 CREATE FUNCTION [dbo].[CalculateMaterialCostForProduct]
@@ -1169,7 +1169,7 @@ END;
 
 ### `dbo.CalculatePartCostForProduct`
 
-**Opis:** Liczy koszt części potrzebnych do wytworzenia 1 sztuki produktu na podstawie BOM i cenników dostawców.
+**Description:** Calculates the cost of parts needed to produce 1 unit of a product based on the BOM and supplier price lists.
 
 ```sql
 CREATE FUNCTION [dbo].[CalculatePartCostForProduct]
@@ -1204,7 +1204,7 @@ END;
 
 ### `dbo.CalculateProductionCost`
 
-**Opis:** Liczy łączny koszt wytworzenia produktu (materiały + części + robocizna itp. zgodnie z modelem).
+**Description:** Calculates the total cost of producing a product (materials + parts + labor etc., according to the model).
 
 ```sql
 CREATE FUNCTION [dbo].[CalculateProductionCost]
@@ -1217,7 +1217,7 @@ BEGIN
     DECLARE @MaterialCost DECIMAL(18,2);
     DECLARE @PartCost DECIMAL(18,2);
 
-    -- koszt materiałów
+    -- material cost
     SELECT
         @MaterialCost = SUM(
             mf.QuantityNeeded *
@@ -1235,7 +1235,7 @@ BEGIN
     ) ms
     WHERE mf.ProductID = @ProductID;
 
-    -- koszt części
+    -- part cost
     SELECT
         @PartCost = SUM(
             pf.QuantityNeeded *
@@ -1259,7 +1259,7 @@ END;
 
 ### `dbo.GetBestSupplierForMaterial`
 
-**Opis:** Zwraca najlepszego dostawcę materiału (np. minimalna cena w aktualnym cenniku).
+**Description:** Returns the best supplier for a material (e.g. the minimum price in the current price list).
 
 ```sql
 CREATE FUNCTION [dbo].[GetBestSupplierForMaterial]
@@ -1285,7 +1285,7 @@ END;
 
 ### `dbo.GetBestSupplierForPart`
 
-**Opis:** Zwraca najlepszego dostawcę części (np. minimalna cena w aktualnym cenniku).
+**Description:** Returns the best supplier for a part (e.g. the minimum price in the current price list).
 
 ```sql
 CREATE FUNCTION [dbo].[GetBestSupplierForPart]
@@ -1311,10 +1311,10 @@ END;
 
 ### `dbo.OrderDiscount`
 
-**Opis:** Wylicza rabat dla zamówienia.
+**Description:** Calculates the discount for an order.
 
 ```sql
-/* Suma rabatów (kwotowo): UnitPrice * Quantity * Discount% */
+/* Total discount (amount): UnitPrice * Quantity * Discount% */
 CREATE   FUNCTION [dbo].[OrderDiscount] (@OrderID INT)
 RETURNS DECIMAL(18,2)
 AS
@@ -1333,7 +1333,7 @@ END;
 
 ### `dbo.OrderSubtotal`
 
-**Opis:** Wylicza wartość netto (suma pozycji) dla zamówienia.
+**Description:** Calculates the net value (sum of line items) for an order.
 
 ```sql
 /* Suma pozycji: UnitPrice * Quantity */
@@ -1353,11 +1353,11 @@ END;
 
 ### `dbo.OrderTax`
 
-**Opis:** Wylicza podatek dla zamówienia.
+**Description:** Calculates the tax for an order.
 
 ```sql
-/* Podatek dla zamówienia na podstawie stawki z Taxes powiązanej z ostatnią płatnością.
-   Jeśli brak płatności -> 0.
+/* Tax for the order based on the rate from Taxes linked to the latest payment.
+   If there is no payment -> 0.
 */
 CREATE   FUNCTION [dbo].[OrderTax] (@OrderID INT)
 RETURNS DECIMAL(18,2)
@@ -1379,7 +1379,7 @@ END;
 
 ### `dbo.OrderTotal`
 
-**Opis:** Wylicza wartość brutto zamówienia (subtotal - rabat + tax).
+**Description:** Calculates the gross value of an order (subtotal - discount + tax).
 
 ```sql
 /* Total: subtotal - discount + freight + tax */
@@ -1397,14 +1397,14 @@ BEGIN
 END;
 ```
 
-## 6. Procedury składowane
+## 6. Stored procedures
 
 ### `dbo.AddPayment`
 
-**Opis:** Rejestruje płatność do zamówienia i wykonuje walidacje spójności kwot/statusów.
+**Description:** Registers a payment for an order and performs consistency validations of amounts/statuses.
 
 ```sql
-/* AddPayment: dodaje płatność do zamówienia + walidacje */
+/* AddPayment: adds a payment to the order + validations */
 CREATE   PROCEDURE [dbo].[AddPayment]
     @OrderID     INT,
     @TaxID       INT,
@@ -1420,28 +1420,28 @@ BEGIN
         SET @PaymentDate = CAST(GETDATE() AS DATE);
 
     IF @Amount <= 0
-        THROW 51100, 'Amount musi być > 0.', 1;
+        THROW 51100, 'Amount must be > 0.', 1;
 
     IF NOT EXISTS (SELECT 1 FROM dbo.Orders WHERE OrderID = @OrderID)
-        THROW 51101, 'Nie istnieje OrderID.', 1;
+        THROW 51101, 'OrderID does not exist.', 1;
 
     IF NOT EXISTS (SELECT 1 FROM dbo.Taxes WHERE TaxID = @TaxID)
-        THROW 51102, 'Nie istnieje TaxID.', 1;
+        THROW 51102, 'TaxID does not exist.', 1;
 
     DECLARE @OrderDate DATE;
     SELECT @OrderDate = o.OrderDate FROM dbo.Orders o WHERE o.OrderID = @OrderID;
 
     IF @PaymentDate < @OrderDate
-        THROW 51103, 'PaymentDate nie może być wcześniejszy niż OrderDate.', 1;
+        THROW 51103, 'PaymentDate cannot be earlier than OrderDate.', 1;
 
     BEGIN TRY
         BEGIN TRAN;
 
-        -- generacja PaymentID w transakcji
+        -- PaymentID generation within the transaction
         SELECT @NewPaymentID = ISNULL(MAX(PaymentID), 0) + 1
         FROM dbo.Payments WITH (UPDLOCK, HOLDLOCK);
 
-        -- walidacja
+        -- validation
         DECLARE @Total DECIMAL(18,2) = dbo.OrderTotal(@OrderID);
         DECLARE @AlreadyPaid DECIMAL(18,2) = (
             SELECT COALESCE(SUM(CAST(p.Amount AS DECIMAL(18,2))), 0)
@@ -1450,7 +1450,7 @@ BEGIN
         );
 
         IF (@AlreadyPaid + CAST(@Amount AS DECIMAL(18,2))) > @Total
-            THROW 51104, 'Suma płatności przekroczyłaby wartość zamówienia (OrderTotal).', 1;
+            THROW 51104, 'The sum of payments would exceed the order value (OrderTotal).', 1;
 
         INSERT INTO dbo.Payments (PaymentID, TaxID, OrderID, Amount, PaymentDate)
         VALUES (@NewPaymentID, @TaxID, @OrderID, @Amount, @PaymentDate);
@@ -1466,7 +1466,7 @@ END;
 
 ### `dbo.ApproveRefund`
 
-**Opis:** Obsługa zatwierdzenia zwrotu/reklamacji (zmiana statusów i korekty).
+**Description:** Handles refund/claim approval (status changes and adjustments).
 
 ```sql
 CREATE   PROCEDURE [dbo].[ApproveRefund]
@@ -1481,14 +1481,14 @@ BEGIN
 
         IF NOT EXISTS (SELECT 1 FROM dbo.Refunds WITH (UPDLOCK, HOLDLOCK) WHERE RefundID = @RefundID)
         BEGIN
-            RAISERROR(N'Nie znaleziono refundu o podanym RefundID.', 16, 1);
+            RAISERROR(N'Refund with the given RefundID was not found.', 16, 1);
             ROLLBACK TRAN;
             RETURN;
         END;
 
         IF EXISTS (SELECT 1 FROM dbo.Refunds WITH (UPDLOCK, HOLDLOCK) WHERE RefundID = @RefundID AND RefundApproved = 1)
         BEGIN
-            RAISERROR(N'Refund jest już zatwierdzony.', 16, 1);
+            RAISERROR(N'The refund has already been approved.', 16, 1);
             ROLLBACK TRAN;
             RETURN;
         END;
@@ -1511,7 +1511,7 @@ END
 
 ### `dbo.PlaceOrder`
 
-**Opis:** Składa zamówienie klienta (nagłówek + pozycje) w transakcji, z walidacją dat i kosztów; korzysta z `dbo.OrderItemType`.
+**Description:** Places a customer order (header + line items) in a transaction, with date and cost validation; uses `dbo.OrderItemType`.
 
 ```sql
 CREATE PROCEDURE [dbo].[PlaceOrder]
@@ -1535,23 +1535,23 @@ BEGIN
         SET @RequestedDeliveryDate = DATEADD(DAY, 14, @OrderDate);
 
     IF @RequestedDeliveryDate < @OrderDate
-        THROW 51000, 'RequestedDeliveryDate nie może być wcześniejsza niż OrderDate.', 1;
+        THROW 51000, 'RequestedDeliveryDate cannot be earlier than OrderDate.', 1;
 
     IF @Freight < 0
-        THROW 51001, 'Freight nie może być ujemny.', 1;
+        THROW 51001, 'Freight cannot be negative.', 1;
 
     IF NOT EXISTS (SELECT 1 FROM @Items)
-        THROW 51002, 'Lista pozycji @Items jest pusta.', 1;
+        THROW 51002, 'The @Items list is empty.', 1;
 
     IF EXISTS (SELECT 1 FROM @Items WHERE Quantity <= 0)
-        THROW 51003, 'Quantity musi być > 0.', 1;
+        THROW 51003, 'Quantity must be > 0.', 1;
 
     IF NOT EXISTS (SELECT 1 FROM dbo.Employees WHERE EmployeeID=@EmployeeID)
-        THROW 51004, 'EmployeeID nie istnieje.', 1;
+        THROW 51004, 'EmployeeID does not exist.', 1;
     IF NOT EXISTS (SELECT 1 FROM dbo.Customers WHERE CustomerID=@CustomerID)
-        THROW 51005, 'CustomerID nie istnieje.', 1;
+        THROW 51005, 'CustomerID does not exist.', 1;
     IF NOT EXISTS (SELECT 1 FROM dbo.Shippers WHERE ShipperID=@ShipperID)
-        THROW 51006, 'ShipperID nie istnieje.', 1;
+        THROW 51006, 'ShipperID does not exist.', 1;
 
     IF EXISTS (
         SELECT 1
@@ -1559,7 +1559,7 @@ BEGIN
         LEFT JOIN dbo.Products p ON p.ProductID = i.ProductID
         WHERE p.ProductID IS NULL
     )
-        THROW 51007, 'Co najmniej jeden ProductID z @Items nie istnieje.', 1;
+        THROW 51007, 'At least one ProductID from @Items does not exist.', 1;
 
     BEGIN TRY
         BEGIN TRAN;
@@ -1626,7 +1626,7 @@ BEGIN
         WHERE a.MissingQty > 0;
 
         IF EXISTS (SELECT 1 FROM #Alloc WHERE MissingQty > 0 AND FactoryID IS NULL)
-            THROW 51010, 'Brak fabryki zdolnej produkować kategorię dla co najmniej jednego produktu.', 1;
+            THROW 51010, 'No factory capable of producing the category for at least one product.', 1;
 
         DECLARE @NewPO TABLE (ProductionOrderID INT NOT NULL);
 
@@ -1670,7 +1670,7 @@ END;
 
 ### `dbo.ReceiveStock`
 
-**Opis:** Przyjęcie towaru/produkcji na magazyn (aktualizacja stanów).
+**Description:** Receipt of goods/production into stock (inventory update).
 
 ```sql
 CREATE   PROCEDURE [dbo].[ReceiveStock]
@@ -1683,7 +1683,7 @@ BEGIN
 
     IF @Quantity IS NULL OR @Quantity <= 0
     BEGIN
-        RAISERROR(N'Quantity musi być > 0.', 16, 1);
+        RAISERROR(N'Quantity must be > 0.', 16, 1);
         RETURN;
     END;
 
@@ -1692,13 +1692,13 @@ BEGIN
     WHERE ProductID = @ProductID;
 
     IF @@ROWCOUNT = 0
-        RAISERROR(N'Nie znaleziono produktu o podanym ProductID.', 16, 1);
+        RAISERROR(N'Product with the given ProductID was not found.', 16, 1);
 END
 ```
 
 ### `dbo.ScheduleProductionOrder`
 
-**Opis:** Planowanie zleceń produkcyjnych w oparciu o moce przerobowe i kalendarz fabryk.
+**Description:** Production order scheduling based on capacity and the factory calendar.
 
 ```sql
 CREATE   PROCEDURE [dbo].[ScheduleProductionOrder]
@@ -1727,7 +1727,7 @@ BEGIN
         @PlannedStart DATETIME2(0),
         @PlannedEnd DATETIME2(0);
 
-    -- pobierz dane zlecenia
+    -- fetch production order data
     SELECT
         @FactoryID = FactoryID,
         @ProductID = ProductID,
@@ -1738,7 +1738,7 @@ BEGIN
     IF @FactoryID IS NULL
         THROW 50001, 'ProductionOrder not found.', 1;
 
-    -- spec produktu
+    -- product specification
     SELECT @HoursPerUnit = HoursPerUnit
     FROM dbo.ProductProductionSpec
     WHERE ProductID = @ProductID;
@@ -1751,7 +1751,7 @@ BEGIN
 
     BEGIN TRAN;
 
-        -- replanowanie: usuń stare rezerwacje tego PO
+        -- rescheduling: remove old reservations for this production order
         DELETE FROM dbo.FactoryCapacityReservations
         WHERE ProductionOrderID = @ProductionOrderID;
 
@@ -1804,7 +1804,7 @@ END;
 
 ### `dbo.SeedFactoryCapacityCalendar`
 
-**Opis:** Zasila kalendarz mocy przerobowych fabryk (np. dni pracy i limity).
+**Description:** Seeds the factory capacity calendar (e.g. working days and limits).
 
 ```sql
 CREATE   PROCEDURE [dbo].[SeedFactoryCapacityCalendar]
@@ -1844,10 +1844,10 @@ END;
 
 ### `dbo.ShipOrder`
 
-**Opis:** Oznacza zamówienie jako wysłane / realizuje etap wysyłki (logika statusów i dat).
+**Description:** Marks an order as shipped / performs the shipping stage (status and date logic).
 
 ```sql
-/* ShipOrder: ustawia ShipDate + walidacje */
+/* ShipOrder: sets ShipDate + validations */
 CREATE   PROCEDURE [dbo].[ShipOrder]
     @OrderID   INT,
     @ShipDate  DATE = NULL
@@ -1859,7 +1859,7 @@ BEGIN
         SET @ShipDate = CAST(GETDATE() AS DATE);
 
     IF NOT EXISTS (SELECT 1 FROM dbo.Orders WHERE OrderID = @OrderID)
-        THROW 51200, 'Nie istnieje OrderID.', 1;
+        THROW 51200, 'OrderID does not exist.', 1;
 
     DECLARE @OrderDate DATE, @ExistingShip DATE;
     SELECT @OrderDate = OrderDate, @ExistingShip = ShipDate
@@ -1867,10 +1867,10 @@ BEGIN
     WHERE OrderID = @OrderID;
 
     IF @ExistingShip IS NOT NULL
-        THROW 51201, 'Zamówienie ma już ustawioną datę wysyłki.', 1;
+        THROW 51201, 'The order already has a shipping date set.', 1;
 
     IF @ShipDate < @OrderDate
-        THROW 51202, 'ShipDate nie może być wcześniejsza niż OrderDate.', 1;
+        THROW 51202, 'ShipDate cannot be earlier than OrderDate.', 1;
 
     UPDATE dbo.Orders
     SET ShipDate = @ShipDate
@@ -1878,11 +1878,11 @@ BEGIN
 END;
 ```
 
-## 7. Widoki
+## 7. Views
 
 ### `dbo.vFactoriesCategories`
 
-**Opis:** Powiązania fabryk z kategoriami produktów (kompetencje produkcyjne).
+**Description:** Factory relationships with product categories (production capabilities).
 
 ```sql
 CREATE VIEW [dbo].[vFactoriesCategories]
@@ -1895,7 +1895,7 @@ FROM     dbo.Factories AS f INNER JOIN
 
 ### `dbo.vInventory_Status`
 
-**Opis:** Bieżące stany magazynowe oraz sygnały o brakach / planach produkcji.
+**Description:** Current inventory levels together with shortage / production plan signals.
 
 ```sql
 CREATE   VIEW [dbo].[vInventory_Status] AS
@@ -1913,14 +1913,14 @@ FROM dbo.Products p
 JOIN dbo.Categories c ON c.CategoryID = p.CategoryID
 LEFT JOIN dbo.ProductionOrders po
     ON po.ProductID = p.ProductID
-   AND po.Status NOT IN (3,4,5) -- nie liczymy Completed/Cancelled/Failed jako "w produkcji"
+   AND po.Status NOT IN (3,4,5) -- Completed/Cancelled/Failed are not counted as "in production"
 GROUP BY
     p.ProductID, p.ProductName, p.CategoryID, c.CategoryName, p.UnitsInStock;
 ```
 
 ### `dbo.vLowStockProducts`
 
-**Opis:** Produkty o niskim stanie magazynowym (alerty).
+**Description:** Products with low inventory levels (alerts).
 
 ```sql
 CREATE   VIEW [dbo].[vLowStockProducts]
@@ -1939,7 +1939,7 @@ WHERE p.UnitsInStock <= 10;
 
 ### `dbo.vOrderSummary`
 
-**Opis:** Podsumowanie zamówienia (wartości, rabaty, podatki, statusy).
+**Description:** Order summary (values, discounts, taxes, statuses).
 
 ```sql
 CREATE   VIEW [dbo].[vOrderSummary]
@@ -1975,7 +1975,7 @@ GROUP BY
 
 ### `dbo.vPaymentsByOrder`
 
-**Opis:** Płatności pogrupowane / powiązane z zamówieniami (do kontroli rozliczeń).
+**Description:** Payments grouped / linked to orders (for settlement control).
 
 ```sql
 CREATE   VIEW [dbo].[vPaymentsByOrder]
@@ -2001,7 +2001,7 @@ LEFT JOIN dbo.Payments p2 ON p2.OrderID = o.OrderID;
 
 ### `dbo.vProductBOM`
 
-**Opis:** Bill of Materials – definicja z czego produkt się składa (części/materiały/ilości).
+**Description:** Bill of Materials – definition of what a product consists of (parts/materials/quantities).
 
 ```sql
 CREATE VIEW [dbo].[vProductBOM]
@@ -2014,7 +2014,7 @@ FROM     dbo.Products AS p LEFT OUTER JOIN
 
 ### `dbo.vProductUnitCost`
 
-**Opis:** Koszt jednostkowy produktu (wyliczenia kosztów produkcji).
+**Description:** Product unit cost (production cost calculations).
 
 ```sql
 CREATE   VIEW [dbo].[vProductUnitCost]
@@ -2061,7 +2061,7 @@ LEFT JOIN ProdCost pr ON pr.CategoryID = p.CategoryID;
 
 ### `dbo.vProductionCosts_ByCategory_Month`
 
-**Opis:** Raport kosztów produkcji wg kategorii w ujęciu miesięcznym.
+**Description:** Production cost report by category on a monthly basis.
 
 ```sql
 CREATE   VIEW [dbo].[vProductionCosts_ByCategory_Month] AS
@@ -2087,7 +2087,7 @@ GROUP BY
 
 ### `dbo.vProductionCosts_ByCategory_Quarter`
 
-**Opis:** Raport kosztów produkcji wg kategorii w ujęciu kwartalnym.
+**Description:** Production cost report by category on a quarterly basis.
 
 ```sql
 CREATE   VIEW [dbo].[vProductionCosts_ByCategory_Quarter] AS
@@ -2113,7 +2113,7 @@ GROUP BY
 
 ### `dbo.vProductionCosts_ByCategory_Year`
 
-**Opis:** Raport kosztów produkcji wg kategorii w ujęciu rocznym.
+**Description:** Production cost report by category on a yearly basis.
 
 ```sql
 CREATE   VIEW [dbo].[vProductionCosts_ByCategory_Year] AS
@@ -2138,7 +2138,7 @@ GROUP BY
 
 ### `dbo.vProductionPlan_FactoryDailyLoad`
 
-**Opis:** Obciążenie dzienne fabryk wynikające z planów produkcji.
+**Description:** Daily factory load resulting from production plans.
 
 ```sql
 CREATE   VIEW [dbo].[vProductionPlan_FactoryDailyLoad] AS
@@ -2159,7 +2159,7 @@ GROUP BY
 
 ### `dbo.vProductionPlan_Orders`
 
-**Opis:** Zestawienie planu produkcji dla zamówień (co/ile/kiedy).
+**Description:** Production plan summary for orders (what/how much/when).
 
 ```sql
 CREATE   VIEW [dbo].[vProductionPlan_Orders] AS
@@ -2187,7 +2187,7 @@ WHERE po.Status NOT IN (4,5); -- Cancelled/Failed out
 
 ### `dbo.vRefundsWithOrderInfo`
 
-**Opis:** Zwroty/reklamacje z danymi zamówienia.
+**Description:** Refunds/claims with order data.
 
 ```sql
 CREATE   VIEW [dbo].[vRefundsWithOrderInfo]
@@ -2211,7 +2211,7 @@ JOIN dbo.Products p   ON p.ProductID = r.ProductID;
 
 ### `dbo.vSalesLines`
 
-**Opis:** Pozycje sprzedażowe (order details) jako baza do raportów sprzedaży.
+**Description:** Sales line items (order details) as a basis for sales reports.
 
 ```sql
 CREATE   VIEW [dbo].[vSalesLines] AS
@@ -2233,7 +2233,7 @@ JOIN dbo.Categories c ON c.CategoryID = p.CategoryID;
 
 ### `dbo.vSales_ByCategory_Month`
 
-**Opis:** Sprzedaż wg kategorii w ujęciu miesięcznym.
+**Description:** Sales by category on a monthly basis.
 
 ```sql
 CREATE   VIEW [dbo].[vSales_ByCategory_Month] AS
@@ -2256,7 +2256,7 @@ GROUP BY
 
 ### `dbo.vSales_ByCategory_Week`
 
-**Opis:** Sprzedaż wg kategorii w ujęciu tygodniowym.
+**Description:** Sales by category on a weekly basis.
 
 ```sql
 CREATE   VIEW [dbo].[vSales_ByCategory_Week] AS
@@ -2278,7 +2278,7 @@ GROUP BY
 
 ### `dbo.vSupplierPriceList`
 
-**Opis:** Ujednolicony cennik dostawców (materiały + części) do analiz kosztów.
+**Description:** Unified supplier price list (materials + parts) for cost analysis.
 
 ```sql
 CREATE VIEW [dbo].[vSupplierPriceList]
@@ -2289,11 +2289,11 @@ FROM     dbo.Suppliers AS s LEFT OUTER JOIN
                   dbo.MaterialSuppliers AS ms ON ms.SupplierID = s.SupplierID
 ```
 
-## 8. Triggery
+## 8. Triggers
 
 ### `dbo.trg_OrderDetails_Stock`
 
-**Opis:** Pilnuje spójności stanów magazynowych przy dodawaniu/edycji pozycji zamówienia (rezerwacje/zużycia).
+**Description:** Maintains inventory consistency when adding/editing order lines (reservations/consumption).
 
 ```sql
 CREATE   TRIGGER [dbo].[trg_OrderDetails_Stock]
@@ -2304,7 +2304,7 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    -- policz różnicę (inserted - deleted) po QuantityFromStock
+    -- calculate the difference (inserted - deleted) based on QuantityFromStock
     CREATE TABLE #Delta (
         ProductID INT NOT NULL PRIMARY KEY,
         DeltaQty  INT NOT NULL
@@ -2321,7 +2321,7 @@ BEGIN
     ) x
     GROUP BY ProductID;
 
-    -- walidacja: nie schodzimy poniżej zera
+    -- validation: do not go below zero
     IF EXISTS (
         SELECT 1
         FROM #Delta dt
@@ -2330,12 +2330,12 @@ BEGIN
         WHERE (p.UnitsInStock - dt.DeltaQty) < 0
     )
     BEGIN
-        RAISERROR(N'Brak stanu magazynowego (QuantityFromStock).', 16, 1);
+        RAISERROR(N'Insufficient stock level (QuantityFromStock).', 16, 1);
         ROLLBACK TRANSACTION;
         RETURN;
     END;
 
-    -- aktualizacja stanów
+    -- inventory update
     UPDATE p
         SET p.UnitsInStock = p.UnitsInStock - dt.DeltaQty
     FROM dbo.Products p
@@ -2346,7 +2346,7 @@ END
 
 ### `dbo.trg_Payments_Validate`
 
-**Opis:** Waliduje dane płatności (np. kwoty, powiązania z zamówieniem, statusy).
+**Description:** Validates payment data (e.g. amounts, order relationships, statuses).
 
 ```sql
 CREATE   TRIGGER [dbo].[trg_Payments_Validate]
@@ -2356,10 +2356,10 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- brak ujemnych / zerowych kwot
+    -- no negative / zero amounts
     IF EXISTS (SELECT 1 FROM inserted WHERE Amount <= 0)
     BEGIN
-        RAISERROR('Amount musi być > 0.', 16, 1);
+        RAISERROR('Amount must be > 0.', 16, 1);
         ROLLBACK TRANSACTION;
         RETURN;
     END
@@ -2372,12 +2372,12 @@ BEGIN
         WHERE i.PaymentDate < o.OrderDate
     )
     BEGIN
-        RAISERROR('PaymentDate nie może być wcześniejszy niż OrderDate.', 16, 1);
+        RAISERROR('PaymentDate cannot be earlier than OrderDate.', 16, 1);
         ROLLBACK TRANSACTION;
         RETURN;
     END
 
-    -- spójność: suma płatności <= OrderTotal
+    -- consistency: total payments <= OrderTotal
     IF EXISTS (
         SELECT 1
         FROM inserted i
@@ -2390,7 +2390,7 @@ BEGIN
         WHERE x.PaidTotal > dbo.OrderTotal(i.OrderID)
     )
     BEGIN
-        RAISERROR('Suma płatności przekracza wartość zamówienia (OrderTotal).', 16, 1);
+        RAISERROR('The sum of payments exceeds the order value (OrderTotal).', 16, 1);
         ROLLBACK TRANSACTION;
         RETURN;
     END
@@ -2399,7 +2399,7 @@ END;
 
 ### `dbo.trg_Products_MinPrice`
 
-**Opis:** Pilnuje minimalnej ceny produktu (reguła biznesowa) przy insert/update.
+**Description:** Enforces the minimum product price (business rule) on insert/update.
 
 ```sql
 CREATE   TRIGGER [dbo].[trg_Products_MinPrice]
@@ -2416,14 +2416,14 @@ BEGIN
         WHERE i.UnitPrice < c.TotalCost
     )
     BEGIN
-        THROW 52001, 'Cena sprzedaży nie może być niższa niż łączny koszt (materiały + części + produkcja).', 1;
+        THROW 52001, 'The selling price cannot be lower than the total cost (materials + parts + production).', 1;
     END
 END;
 ```
 
 ### `dbo.trg_Refunds_Approve`
 
-**Opis:** Obsługuje skutki zatwierdzania zwrotu (statusy, korekty, ewentualne zwroty na magazyn).
+**Description:** Handles the effects of refund approval (statuses, adjustments, possible stock returns).
 
 ```sql
 CREATE TRIGGER [dbo].[trg_Refunds_Approve]
@@ -2502,7 +2502,7 @@ BEGIN
         WHERE (ISNULL(a.AlreadyApprovedQty, 0) + n.NewQty) > ISNULL(p.PurchasedQty, 0)
     )
     BEGIN
-        RAISERROR(N'Nie można zatwierdzić zwrotu: łączna ilość zwrotów przekracza ilość kupioną w zamówieniu.', 16, 1);
+        RAISERROR(N'Cannot approve refund: the total refund quantity exceeds the quantity purchased in the order.', 16, 1);
         ROLLBACK TRANSACTION;
         RETURN;
     END;
@@ -2515,9 +2515,9 @@ BEGIN
 END
 ```
 
-## 9. Indeksy
+## 9. Indexes
 
-Indeksy zostały utworzone głównie pod klucze obce (FK) oraz pola dat używane w raportach (np. zamówienia/płatności/planowanie produkcji).
+The indexes were created mainly for foreign keys (FK) and date fields used in reports (e.g. orders/payments/production planning).
 
 ### `dbo.Employees`
 - `IX_Employees_FactoryID`: ([FactoryID] ASC)
@@ -2573,17 +2573,17 @@ Indeksy zostały utworzone głównie pod klucze obce (FK) oraz pola dat używane
 - `IX_Refunds_OrderID`: ([OrderID] ASC)
 - `IX_Refunds_ProductID`: ([ProductID] ASC)
 
-## 10. Role i uprawnienia
+## 10. Roles and permissions
 
-W systemie zdefiniowano role aplikacyjne oraz nadano im uprawnienia głównie do **widoków** i **procedur/funkcji**, zgodnie z zaleceniem „enterprise” (unikać dostępu do gołych tabel). fileciteturn1file1
+Application roles were defined in the system and granted permissions mainly to **views** and **procedures/functions**, in line with the “enterprise” recommendation (avoid direct access to raw tables).
 
-### 10.1. Zdefiniowane role
+### 10.1. Defined roles
 - `role_admin`
 - `role_production`
 - `role_reporting`
 - `role_sales`
 
-### 10.2. Uprawnienia per rola (GRANT)
+### 10.2. Permissions by role (GRANT)
 #### `role_admin`
 - `DATABASE`: CONTROL
 
@@ -2651,12 +2651,12 @@ W systemie zdefiniowano role aplikacyjne oraz nadano im uprawnienia głównie do
 - `dbo.vSales_ByCategory_Month`: SELECT
 - `dbo.vSales_ByCategory_Week`: SELECT
 
-## 11. Uwagi dot. danych testowych (seed)
+## 11. Notes on test data (seed)
 
-Skrypt zawiera sekcje INSERT/seed służące do wygenerowania przykładowych danych (produkty, klienci, zamówienia, płatności itp.) zgodnie z wymaganiem posiadania danych historycznych do raportów.
+The script contains INSERT/seed sections used to generate sample data (products, customers, orders, payments, etc.) in accordance with the requirement to have historical data available for reporting.
 
 ---
-### Załączniki / pliki
-- `msh_company_script.sql` – skrypt tworzący obiekty bazy danych
-- `data_generator.py` - skrypt tworzący dane 
-- `Projekt2025.pdf` – treść wymagań projektu
+### Attachments / files
+- `msh_company_script.sql` – script that creates the database objects
+- `data_generator.py` - data generation script 
+- `Projekt2025.pdf` – project requirements document
