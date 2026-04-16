@@ -1,9 +1,12 @@
 # Modern School & Home Company (MSH - Michał, Szymon, Hubert)
 
 ### Team: 
-#  Michał Nowak
-#  Szymon Potępa 
-# Hubert Myszka
+
+**Szymon Potępa**
+
+**Michał Nowak**
+
+**Hubert Myszka**
 
 ## 1. System purpose and business context
 
